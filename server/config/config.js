@@ -1,7 +1,7 @@
 //=================== 
 // Puerto
 //===================
-process.env.PORT = process.env.PORT || 3000;
+process.env.PORT = process.env.PORT || 2000;
 
 //=================== 
 // Entorno
@@ -22,3 +22,18 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 process.env.URL_DB = urlDB;
+
+//=================== 
+// Vencimiento del Token
+//===================
+// 60 segundos
+// 60 minutos
+// 24 horas
+// 30 dias
+process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
+
+
+//=================== 
+// SEED
+//===================
+process.env.SEED = process.env.SEED || 'este-es-el-seed-desarrollo';

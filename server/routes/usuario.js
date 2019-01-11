@@ -5,8 +5,13 @@ const _ = require('underscore');
 
 // para lo modelos es mayuscula
 const Usuario = require('../models/usuario');
+const { verificarToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
 
-app.get('/usuario', function(req, res) {
+app.get('/usuario', verificarToken, function(req, res) {
+    /* return res.json({
+        usuario: req.usuario
+    });
+    */
     let desde = req.query.desde || 0;
     desde = Number(desde);
 
@@ -36,7 +41,7 @@ app.get('/usuario', function(req, res) {
         });
 });
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificarToken, verificaAdmin_Role], function(req, res) {
     let body = req.body;
     let usuario = new Usuario({
         nombre: body.nombre,
@@ -58,7 +63,7 @@ app.post('/usuario', function(req, res) {
 
     });
 });
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificarToken, verificaAdmin_Role], function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre',
         'email',
@@ -82,7 +87,7 @@ app.put('/usuario/:id', function(req, res) {
 });
 
 // el registro siempre queda solo cambia un estado
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificarToken, verificaAdmin_Role], function(req, res) {
     let id = req.params.id;
     // Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
     let cambiaEstado = {
